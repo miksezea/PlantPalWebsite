@@ -15,7 +15,10 @@
     <h1>PlantPal Website</h1>
     <div id="app">
         <h2>Get All (GET)</h2>
+        <!-- Knap der henter GetAll data -->
         <button id="getAllButton" @click="getAllSensorDatas" class="btn btn-primary">Get all sensor data</button>
+        <!-- Clears the List -->
+        <button id="clearButton" @click="clearList" class="btn btn-danger">Clear!</button>
         <br />
         
         <ul id="list" v-if="sensorDatas.length">
@@ -25,6 +28,7 @@
         </ul>
         <div v-else>No Data</div>
     </div>
+
     
     <script src="js/index.js"></script>
 </body>

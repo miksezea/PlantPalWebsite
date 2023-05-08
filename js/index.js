@@ -19,5 +19,8 @@ Vue.createApp({
                 alert(ex.message)
             }
         },
+        clearList() {
+            this.sensorDatas = [];
+        }
     }
 }).mount("#app")
