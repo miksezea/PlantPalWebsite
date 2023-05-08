@@ -13,10 +13,17 @@
 
 <body>
     <h1>PlantPal Website</h1>
-    <h1>Oliver</h1>
     <div id="app">
+        <h2>Get All (GET)</h2>
+        <button id="getAllButton" @click="getAllSensorDatas" class="btn btn-primary">Get all sensor data</button>
+        <br />
         
-
+        <ul id="list" v-if="sensorDatas.length">
+            <li v-for="sensorData in sensorDatas">
+                ID: {{sensorData.id}}, Date: {{sensorData.dateTime}}, pH Value: {{sensorData.phValue}}, Humidity: {{sensorData.humidity}}
+            </li>
+        </ul>
+        <div v-else>No Data</div>
     </div>
     
     <script src="js/index.js"></script>

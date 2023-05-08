@@ -1,10 +1,23 @@
+const baseUrl = "https://plantpal20230508115132.azurewebsites.net/api/sensordatas"
+
 Vue.createApp({
     data() {
         return {
+            sensorDatas: [],
 
         }
     },
     methods: {
-
+        getAllSensorDatas() {
+            this.helperGetAndShow(baseUrl)
+        },
+        async helperGetAndShow(url) {
+            try {
+                const response = await axios.get(url)
+                this.sensorDatas = await response.data
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
     }
 }).mount("#app")
