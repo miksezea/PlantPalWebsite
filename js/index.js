@@ -1,4 +1,4 @@
-const baseUrl = "https://plantpal20230508115132.azurewebsites.net/api/sensordatas"
+const baseUrl = "https://plantpalweb.azurewebsites.net/api/sensordatas"
 
 Vue.createApp({
     data() {
