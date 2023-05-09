@@ -4,7 +4,6 @@ Vue.createApp({
     data() {
         return {
             sensorDatas: [],
-
         }
     },
     methods: {
