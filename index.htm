@@ -23,12 +23,10 @@
         
         <ul id="list" v-if="sensorDatas.length">
             <li v-for="sensorData in sensorDatas">
-                ID: {{sensorData.id}}, Date: {{sensorData.dateTime}}, pH Value: {{sensorData.phValue}}, Humidity: {{sensorData.humidity}}
+                Id: {{sensorData.id}}, Date: {{sensorData.dateTime}}, Moisture: {{sensorData.moisture}}, Conductivity: {{sensorData.conductivity}}, Light: {{sensorData.light}}, Temperature: {{sensorData.temperature}}
             </li>
         </ul>
         <div v-else>No Data</div>
     </div>
-
-    
     <script src="js/index.js"></script>
 </body>
