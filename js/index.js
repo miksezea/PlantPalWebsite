@@ -32,14 +32,15 @@ Vue.createApp({
         async helperGetAndShow(url) {
             try {
                 const response = await axios.get(url)
-                this.sensorDatas = await response.data
+                this.plants = await response.data
             } catch (ex) {
                 alert(ex.message)
             }
         },
         
         clearList() {
-            this.sensorDatas = [];
+            this.plants = [];
         }
     }
+    
 }).mount("#app")
