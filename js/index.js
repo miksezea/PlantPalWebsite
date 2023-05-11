@@ -1,46 +1,156 @@
-const baseUrl = "https://plantpalweb.azurewebsites.net/api/sensordatas"
+const plantUrl = "https://plantpalweb.azurewebsites.net/api/plants"
+const dataUrl = "https://plantpalweb.azurewebsites.net/api/sensordatas"
+
 
 Vue.createApp({
     data() {
         return {
+            deleteMessage: "",
+            addMessage: "",
+            updateMessage: "",
+
+            // Plants data
             plants: [],
             error: null, 
+            singlePlant: null,
+            plantDeleteId: null,
+            addPlantData: {name: "", type: "", description: "", status: null},
+            updatePlantData: {plantId: null, name: "", type: "", description: "", status: null, plantSelected: false},
 
-            Id: null, 
-            Name: "",
-            Type: "",
+            // SensorDatas data
+            datas: [],
+            singleData: null,
+            dataDeleteId: null,
         }
     },
-
+    // Create Plants list
     async created() {
-        console.log("Created method called");
+        console.log("CreatedPlants method called");
         try {
-            const response = await axios.get(baseUrl);
+            const response = await axios.get(plantUrl);
             this.plants = await response.data;
-            this.error = null;
-        } catch (e) {
+        } catch (ex) {
             this.plants = [];
-            this.error = e.message;
+            this.error = ex.message;
         }
     },
 
     methods: {
-        getAllSensorDatas() {
-            this.helperGetAndShow(baseUrl)
+        // Plants methods
+        clearPlantList() {
+            this.plants = [];
         },
-
-        async helperGetAndShow(url) {
+        getAllPlants() {
+            this.plantsHelperGetAndShow(plantUrl)
+        },
+        async plantsHelperGetAndShow(url) {
             try {
                 const response = await axios.get(url)
                 this.plants = await response.data
             } catch (ex) {
+                this.plants = []
                 alert(ex.message)
             }
         },
-        
-        clearList() {
-            this.plants = [];
-        }
+        async plantGetById(id) {
+            const url = plantUrl + "/" + id;
+            try {
+                const response = await axios.get(url)
+                this.singlePlant = await response.data
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
+        async deletePlant(plantDeleteId) {
+            const url = plantUrl + "/" + plantDeleteId
+            try {
+                this.deleteDataWithPlant(plantDeleteId)
+                response = await axios.delete(url)
+                this.deleteMessage = response.status + " " + response.statusText
+                this.getAllPlants()
+
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
+        async deleteDataWithPlant(id) {
+            this.getAllSensorData()
+            const filteredDatas = this.datas.filter(data => data.plantId == id)
+            filteredDatas.forEach(data => {
+                this.deleteData(data.id)
+            });
+        },
+        async addPlant() {
+            try {
+                response = await axios.post(plantUrl, this.addPlantData)
+                this.addMessage = "response " + response.status + " " + response.statusText
+                this.getAllPlants()
+            } catch(ex) {
+                alert(ex.message)
+            }
+        },
+        async updateSelectedPlant(id) {
+            const url = plantUrl + "/" + id
+            try {
+                this.checkForSelectedPlants()
+                const foundPlant = this.plants.find(plant => plant.plantId == id)
+                foundPlant.plantSelected = true
+                this.updatePlant(foundPlant)
+            } catch(ex) {
+                alert(ex.message)
+            }
+        },
+        async checkForSelectedPlants() {
+            const filteredPlants = this.plants.filter(plant => plant.plantSelected == true)
+            filteredPlants.forEach(plant => {
+                plant.plantSelected = false
+                this.updatePlant(plant)
+            });
+        },
+        async updatePlant(plant) {
+            const url = plantUrl + "/" + plant.plantId
+            try {
+                response = await axios.put(url, plant)
+                this.updateMessage = "response " + response.status + " " + response.statusText
+            } catch(ex) {
+                alert(ex.message)
+            }
+        },
+
+        // SensorData methods
+        clearDataList() {
+            this.datas = [];
+        },
+        getAllSensorData() {
+            this.helperGetAndShow(dataUrl)
+        },
+        async dataHelperGetAndShow(url) {
+            try {
+                const response = await axios.get(url)
+                this.datas = await response.data
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
+        async dataGetById(id) {
+            const url = dataUrl + "/" + id;
+            try {
+                const response = await axios.get(url)
+                this.singleData = await response.data
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
+        async deleteData(dataDeleteId) {
+            const url = dataUrl + "/" + dataDeleteId
+            try {
+                response = await axios.delete(url)
+                this.deleteMessage = response.status + " " + response.statusText
+                this.getAllSensorData()
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
     }
     
 }).mount("#app")

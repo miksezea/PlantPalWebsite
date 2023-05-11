@@ -42,7 +42,6 @@
         <div id="section1" class="container-fluid col-sm-10" style="padding:100px 20px;">
             <h1>My Plants</h1>
             <div id="app">
-
                 <!-- Create table displaying get all shopping items -->
                 <table class="table" id="plantsTable" v-if="plants.length">
                     <thead>
@@ -50,15 +49,27 @@
                             <th>Id</th>
                             <th>Name</th>
                             <th>Type</th>
-                            <th>Values</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                            <th>Select Plant:</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr v-for="plant in plants">
-                            <td>{{plant.id}}</td>
+                            <td>{{plant.plantId}}</td>
                             <td>{{plant.name}}</td>
                             <td>{{plant.type}}</td>
-                            <td>{{plant.values}}</td>
+                            <td>{{plant.description}}</td>
+                            <td>{{plant.status}}</td>
+                            <td>
+                                <div v-if="plant.plantSelected == true">
+                                    Already Selected
+                                </div>
+                                <div v-else>
+                                    <div>Not Selected</div>
+                                    <button @click="updateSelectedPlant(plant.plantId)" class="btn btn-primary">Select</button>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
@@ -70,5 +81,10 @@
         <div id="section2" class="container-fluid col-sm-10 text-grey" style="padding:100px 20px;">
             <h1>Messages</h1>
         </div>
+
+        <div>
+
+        </div>
+    </div>
     <script src="js/index.js"></script>
 </body>
