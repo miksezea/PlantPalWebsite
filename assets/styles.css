@@ -1,0 +1,21 @@
+body {
+    position: relative;
+}
+
+#section1{
+    margin-top:50px;
+   
+}
+
+.navbar {
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+.navbar a {
+  color: #f2f2f2;
+}
+
+.navbar-nav{
+    display: flex;
+    flex-grow: 1;
+    justify-content: right;
+}

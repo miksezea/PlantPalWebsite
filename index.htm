@@ -4,31 +4,71 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Import Bootstrap -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+    <!-- Import style.css -->
     <link rel="stylesheet" type="text/css" href="assets/styles.css">
 
-    <!-- Import -->
+    <!-- Import Vue.js and Axios -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.js"></script>
     <script src="https://unpkg.com/vue@next"></script>
+
     <title>PlantPal</title>
 </head>
 
-<body>
-    <h1>PlantPal Website</h1>
+<!-- Adding a ScrollSpy to our body -->
+<body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
     <div id="app">
-        <h2>Get All (GET)</h2>
-        <!-- Knap der henter GetAll data -->
-        <button id="getAllButton" @click="getAllSensorDatas" class="btn btn-primary">Get all sensor data</button>
-        <!-- Clears the List -->
-        <button id="clearButton" @click="clearList" class="btn btn-danger">Clear!</button>
-        <br />
-        
-        <ul id="list" v-if="sensorDatas.length">
-            <li v-for="sensorData in sensorDatas">
-                Id: {{sensorData.id}}, Date: {{sensorData.dateTime}}, Moisture: {{sensorData.moisture}}, Conductivity: {{sensorData.conductivity}}, Light: {{sensorData.light}}, Temperature: {{sensorData.temperature}}
-            </li>
-        </ul>
-        <div v-else>No Data</div>
-    </div>
+        <nav id="navbar" class="navbar navbar-expand-sm navbar-light fixed-top">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="collapsibleNavbar">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="#section1">My Plants</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#section2">Messages</a>
+                    </li>
+                </ul>
+
+            </div>
+        </nav>
+
+        <div id="section1" class="container-fluid col-sm-10" style="padding:100px 20px;">
+            <h1>My Plants</h1>
+            <div id="app">
+
+                <!-- Create table displaying get all shopping items -->
+                <table class="table" id="plantsTable" v-if="plants.length">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Values</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="plant in plants">
+                            <td>{{plant.id}}</td>
+                            <td>{{plant.name}}</td>
+                            <td>{{plant.type}}</td>
+                            <td>{{plant.values}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+    
+                <div v-else style="font-style: italic;">No items</div>
+            </div>
+        </div>
+
+        <div id="section2" class="container-fluid col-sm-10 text-grey" style="padding:100px 20px;">
+            <h1>Messages</h1>
+        </div>
     <script src="js/index.js"></script>
 </body>
