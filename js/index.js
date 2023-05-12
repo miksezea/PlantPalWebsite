@@ -89,25 +89,27 @@ Vue.createApp({
                 alert(ex.message)
             }
         },
-        async updateSelectedPlant(id) {
+        // DONT TOUCH! Ikke pille ved disse tre metoder
+        // Lav ny hvis i skal bruge en update metode
+        async updateTruePlant(id) {
             const url = plantUrl + "/" + id
             try {
-                this.checkForSelectedPlants()
+                this.setPlantBoolsToFalse()
                 const foundPlant = this.plants.find(plant => plant.plantId == id)
                 foundPlant.plantSelected = true
-                this.updatePlant(foundPlant)
+                this.updateBoolOnPlants(foundPlant)
             } catch(ex) {
                 alert(ex.message)
             }
         },
-        async checkForSelectedPlants() {
+        async setPlantBoolsToFalse() {
             const filteredPlants = this.plants.filter(plant => plant.plantSelected == true)
             filteredPlants.forEach(plant => {
                 plant.plantSelected = false
-                this.updatePlant(plant)
+                this.updateBoolOnPlants(plant)
             });
         },
-        async updatePlant(plant) {
+        async updateBoolOnPlants(plant) {
             const url = plantUrl + "/" + plant.plantId
             try {
                 response = await axios.put(url, plant)
