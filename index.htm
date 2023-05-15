@@ -5,9 +5,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Import Bootstrap 
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
-
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 
@@ -36,7 +33,7 @@
     <div id="app">
         <nav id="navbar" class="navbar navbar-expand-sm navbar-light fixed-top">
             <a class="navbar-brand" href="#">
-                <img src="images/PlantPalLogo-min.png" alt="Logo" id="logo">
+                <img src="assets/images/PlantPalLogo-min.png" alt="Logo" id="logo">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"
                 id="toggler">
@@ -52,108 +49,137 @@
                         <a class="nav-link" href="#section1">My Plants</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#section2">Messages</a>
+                        <a class="nav-link" href="#section2">Add Plant</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#section3">Messages</a>
                     </li>
                 </ul>
 
             </div>
         </nav>
 
-        <div id="section1" class="container-fluid col-sm-10" style="padding:100px 20px;">
-            <h2>My Plants</h2>
-            <div id="app">
-                <div>
-                    <div v-if="detailedPlant">
-                        {{detailedPlant.display_pid}} <img v-bind:src=detailedPlant.image_url>
-                    </div>
-                    <br>
-                    <input v-model="findPlant.alias" placeholder="Search for plant" type="text" />
-                    <button @click="searchForPlants()" class="btn btn-primary">Search</button>
-                    <table v-if="apiPlants.count > 0" class="table table-hover">
-                        <thead>
-                            <tr>
-                                <th>Name:</th>
-                                <th>Category:</th>
-                                <th>Details:</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="apiPlant in apiPlants.results">
-                                <td>{{apiPlant.display_pid}}</td>
-                                <td>{{apiPlant.category}}</td>
-                                <td>
-                                    <button id="detail" @click="detailedSearch(apiPlant.pid)" class="btn btn-primary">Details</button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <div v-else>No plants</div>
+        <!-- Popup til at tilføje plante -->
+        <div id="addPopup" class="div-popup" v-if="detailedPlant">
+            <div class="popup-container">
+                <div class="img-container">
+                    <img id="popup-picture" v-bind:src=detailedPlant.image_url class="img-thumbnail">
                 </div>
-                <br>
-                <!-- Create table displaying all plants -->
-                <table class="table" id="plantsTable" v-if="plants.length">
-                    <thead>
-                        <tr>
-                            <th>Id</th>
-                            <th>Name</th>
-                            <th>Type</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr v-for="plant in plants">
-                            <td>{{plant.plantId}}</td>
-                            <td>{{plant.name}}</td>
-                            <td>{{plant.type}}</td>
-                            <td>{{plant.description}}</td>
-                            <td>{{plant.status}}</td>
-                            <td>
-                                <div v-if="plant.plantSelected == true">
-                                    Selected
-                                </div>
-                                <div v-else>
-                                    <div></div>
-                                    <button @click="updateTruePlant(plant.plantId)"
-                                        class="btn btn-primary">Select</button>
-                                </div>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="popup-container">
+                    <label for="ptype"><b>Type:</b></label>
+                    <div name="ptype">{{detailedPlant.display_pid}}</div>
+                    <br>
+                    <label for="pname"><b>Name:</b></label>
+                    <input type="text" name="pname" v-model="addPlantData.name" placeholder="Name this plant" required>
 
-                <div v-else style="font-style: italic;">No items</div>
-                <h2>Sensor Readings</h2>
-                <!--Create table for sensor data-->
-                <div>
-                    <table class="table" id="sensorTable">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Date</th>
-                                <th>Moisture</th>
-                                <th>Conductivity</th>
-                                <th>Light</th>
-                                <th>Temperature</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr v-for="data in datas">
-                                <td>{{data.id}}</td>
-                                <td>{{data.dateTime}}</td>
-                                <td>{{data.moisture}}</td>
-                                <td>{{data.conductivity}}</td>
-                                <td>{{data.light}}</td>
-                                <td>{{data.temperature}}</td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    <label for="pdesc"><b>Description:</b></label>
+                    <input type="text" name="pdesc" v-model="addPlantData.description" placeholder="Write description" required>
+
+                    <button class="btn" @click="addPlant()">Add to My Plants</button>
+                    <button type="button" class="btn cancel" @click="closePopup()">Cancel</button>
                 </div>
             </div>
         </div>
 
-        <div id="section2" class="container-fluid col-sm-10 text-grey" style="padding:100px 20px;">
+        <div id="section1" class="container-fluid col-sm-10" style="padding:100px 20px;">
+            <h2>My Plants</h2>
+            <!-- Create table displaying all plants -->
+            <table class="table" id="plantsTable" v-if="plants.length">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Description</th>
+                        <th>Status</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="plant in plants">
+                        <td>{{plant.plantId}}</td>
+                        <td>{{plant.name}}</td>
+                        <td>{{plant.type}}</td>
+                        <td>{{plant.description}}</td>
+                        <td>{{plant.status}}</td>
+                        <td>
+                            <div v-if="plant.plantSelected == true">
+                                Selected
+                            </div>
+                            <div v-else>
+                                <div></div>
+                                <button @click="updateTruePlant(plant.plantId)"
+                                    class="btn btn-primary">Select</button>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div v-else style="font-style: italic;">No items</div>
+            <br>
+            <h2>Sensor Readings</h2>
+            <!--Create table for sensor data-->
+            <div>
+                <table class="table" id="sensorTable">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Date</th>
+                            <th>Moisture</th>
+                            <th>Conductivity</th>
+                            <th>Light</th>
+                            <th>Temperature</th>
+                            <th>Plant Id</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="data in datas">
+                            <td>{{data.id}}</td>
+                            <td>{{data.dateTime}}</td>
+                            <td>{{data.moisture}}</td>
+                            <td>{{data.conductivity}}</td>
+                            <td>{{data.light}}</td>
+                            <td>{{data.temperature}}</td>
+                            <td>{{data.plant.plantId}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="section2" class="container-fluid col-sm-10" style="padding:100px 20px;">
+            <h2>Add Plant</h2>
+            <div>
+                <div id="detailed" v-if="detailedPlant">
+                    <b>{{detailedPlant.display_pid}}</b><br>
+                    <img id="plantPicture" v-bind:src=detailedPlant.image_url><br>
+                    <button @click="openPopup()" class="open-button">Add to My Plants</button>
+                </div>
+                <br>
+                <input v-model="findPlant.alias" placeholder="Search for plant" type="text" required/>
+                <button @click="searchForPlants()" class="btn btn-primary">Search</button>
+                <br><br>
+                <table v-if="apiPlants.count > 0" class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Name:</th>
+                            <th>Category:</th>
+                            <th>Details:</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="apiPlant in apiPlants.results">
+                            <td>{{apiPlant.display_pid}}</td>
+                            <td>{{apiPlant.category}}</td>
+                            <td>
+                                <button id="detail" @click="detailedSearch(apiPlant.pid)" class="btn btn-primary">Details</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div id="section3" class="container-fluid col-sm-10 text-grey" style="padding:100px 20px;">
             <h2>Messages</h2>
         </div>
     </div>

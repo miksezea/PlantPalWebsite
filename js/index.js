@@ -32,7 +32,7 @@ Vue.createApp({
             error: null, 
             singlePlant: null,
             plantDeleteId: null,
-            addPlantData: {name: "", type: "", description: "", status: null},
+            addPlantData: {name: "", type: "", description: "", status: 0},
             updatePlantData: {plantId: null, name: "", type: "", description: "", status: null, plantSelected: false},
 
             // SensorDatas data
@@ -62,6 +62,13 @@ Vue.createApp({
     },
 
     methods: {
+        openPopup() {
+            document.getElementById("addPopup").style.display = "block";
+        },
+        closePopup() {
+            document.getElementById("addPopup").style.display = "none";
+        },
+
         // Plant API methods
         async searchForPlants() {
             const url = plantAPIUrl + "search?alias=" + this.findPlant.alias
@@ -129,9 +136,11 @@ Vue.createApp({
         },
         async addPlant() {
             try {
+                this.addPlantData.type = this.detailedPlant.display_pid
                 response = await axios.post(plantUrl, this.addPlantData)
                 this.addMessage = "response " + response.status + " " + response.statusText
                 this.getAllPlants()
+                this.closePopup()
             } catch(ex) {
                 alert(ex.message)
             }
