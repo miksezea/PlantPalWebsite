@@ -5,8 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Import Bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Import Bootstrap 
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">-->
+
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+
+    <!-- jQuery library -->
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.6.4/dist/jquery.slim.min.js"></script>
+
+    <!-- Popper JS -->
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+
+    <!-- Latest compiled JavaScript -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <!-- Import style.css -->
     <link rel="stylesheet" type="text/css" href="assets/styles.css">
@@ -19,11 +31,19 @@
 </head>
 
 <!-- Adding a ScrollSpy to our body -->
+
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
     <div id="app">
         <nav id="navbar" class="navbar navbar-expand-sm navbar-light fixed-top">
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+            <a class="navbar-brand" href="#">
+                <img src="images/PlantPalLogo-min.png" alt="Logo" id="logo">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"
+                id="toggler">
                 <span class="navbar-toggler-icon"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
             </button>
 
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -40,9 +60,9 @@
         </nav>
 
         <div id="section1" class="container-fluid col-sm-10" style="padding:100px 20px;">
-            <h1>My Plants</h1>
+            <h2>My Plants</h2>
             <div id="app">
-                <!-- Create table displaying get all shopping items -->
+                <!-- Create table displaying all plants -->
                 <table class="table" id="plantsTable" v-if="plants.length">
                     <thead>
                         <tr>
@@ -51,7 +71,7 @@
                             <th>Type</th>
                             <th>Description</th>
                             <th>Status</th>
-                            <th>Select Plant:</th>
+                            <th></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -63,28 +83,53 @@
                             <td>{{plant.status}}</td>
                             <td>
                                 <div v-if="plant.plantSelected == true">
-                                    Already Selected
+                                    Selected
                                 </div>
                                 <div v-else>
-                                    <div>Not Selected</div>
-                                    <button @click="updateTruePlant(plant.plantId)" class="btn btn-primary">Select</button>
+                                    <div></div>
+                                    <button @click="updateTruePlant(plant.plantId)"
+                                        class="btn btn-primary">Select</button>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
-    
+
                 <div v-else style="font-style: italic;">No items</div>
+                <h2>Sensor Readings</h2>
+                <!--Create table for sensor data-->
+                <div>
+                    <table class="table" id="sensorTable">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Date</th>
+                                <th>Moisture</th>
+                                <th>Conductivity</th>
+                                <th>Light</th>
+                                <th>Temperature</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="data in datas">
+                                <td>{{data.id}}</td>
+                                <td>{{data.dateTime}}</td>
+                                <td>{{data.moisture}}</td>
+                                <td>{{data.conductivity}}</td>
+                                <td>{{data.light}}</td>
+                                <td>{{data.temperature}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
         <div id="section2" class="container-fluid col-sm-10 text-grey" style="padding:100px 20px;">
-            <h1>Messages</h1>
-        </div>
-
-        <div>
-
+            <h2>Messages</h2>
         </div>
     </div>
     <script src="js/index.js"></script>
 </body>
+
+</html>

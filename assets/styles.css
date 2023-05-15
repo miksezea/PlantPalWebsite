@@ -6,9 +6,14 @@ body {
     margin-top:50px;
    
 }
+#logo{
+    height: 80px;
+}
 
 .navbar {
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    background-color: white;
+    margin: 0 107px 0 107px;
 }
 .navbar a {
   color: #f2f2f2;
@@ -18,4 +23,16 @@ body {
     display: flex;
     flex-grow: 1;
     justify-content: right;
+}
+
+/*Her fjernes margin på navbar ved mobile visning*/
+@media screen and (max-width: 580px){
+    .navbar{
+        margin: 0 0 0 0;
+        min-height: 50px;
+    }
+    #logo{
+        height:70px;
+    }
+
 }

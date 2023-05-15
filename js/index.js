@@ -1,6 +1,12 @@
 const plantUrl = "https://plantpalweb.azurewebsites.net/api/plants"
 const dataUrl = "https://plantpalweb.azurewebsites.net/api/sensordatas"
 
+$(document).ready(function () {
+    $(".navbar-nav li a").click(function(event) {
+      $(".navbar-collapse").collapse('hide');
+    });
+  });
+
 
 Vue.createApp({
     data() {
@@ -31,6 +37,14 @@ Vue.createApp({
             this.plants = await response.data;
         } catch (ex) {
             this.plants = [];
+            this.error = ex.message;
+        }
+        //try catch for the sensor data too
+        try {
+            const response = await axios.get(dataUrl);
+            this.datas = await response.data;
+        } catch (ex) {
+            this.datas = [];
             this.error = ex.message;
         }
     },
