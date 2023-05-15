@@ -62,6 +62,34 @@
         <div id="section1" class="container-fluid col-sm-10" style="padding:100px 20px;">
             <h2>My Plants</h2>
             <div id="app">
+                <div>
+                    <div v-if="detailedPlant">
+                        {{detailedPlant.display_pid}} <img v-bind:src=detailedPlant.image_url>
+                    </div>
+                    <br>
+                    <input v-model="findPlant.alias" placeholder="Search for plant" type="text" />
+                    <button @click="searchForPlants()" class="btn btn-primary">Search</button>
+                    <table v-if="apiPlants.count > 0" class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Name:</th>
+                                <th>Category:</th>
+                                <th>Details:</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr v-for="apiPlant in apiPlants.results">
+                                <td>{{apiPlant.display_pid}}</td>
+                                <td>{{apiPlant.category}}</td>
+                                <td>
+                                    <button id="detail" @click="detailedSearch(apiPlant.pid)" class="btn btn-primary">Details</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div v-else>No plants</div>
+                </div>
+                <br>
                 <!-- Create table displaying all plants -->
                 <table class="table" id="plantsTable" v-if="plants.length">
                     <thead>

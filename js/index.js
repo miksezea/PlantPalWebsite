@@ -1,5 +1,12 @@
 const plantUrl = "https://plantpalweb.azurewebsites.net/api/plants"
 const dataUrl = "https://plantpalweb.azurewebsites.net/api/sensordatas"
+const apiKey = "7475bb99880fc134897706be88936c06f9946567"
+const plantAPIUrl = "https://open.plantbook.io/api/v1/plant/"
+const customConfig = {
+    headers: {
+        Authorization: "Token " + apiKey,
+      }
+}
 
 $(document).ready(function () {
     $(".navbar-nav li a").click(function(event) {
@@ -14,6 +21,11 @@ Vue.createApp({
             deleteMessage: "",
             addMessage: "",
             updateMessage: "",
+
+            // Plant API data
+            apiPlants: {count: 0, next: "", previous: "", results: []},
+            findPlant: {alias: "",},
+            detailedPlant: null,
 
             // Plants data
             plants: [],
@@ -50,6 +62,27 @@ Vue.createApp({
     },
 
     methods: {
+        // Plant API methods
+        async searchForPlants() {
+            const url = plantAPIUrl + "search?alias=" + this.findPlant.alias
+            try {
+                const response = await axios.get(url, customConfig)
+                this.apiPlants = await response.data
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
+        async detailedSearch(alias) {
+            const url = plantAPIUrl + "detail/" + alias
+            try {
+                const response = await axios.get(url, customConfig)
+                this.detailedPlant = await response.data
+            } catch (ex) {
+                alert(ex.message)
+            }
+        },
+
+
         // Plants methods
         clearPlantList() {
             this.plants = [];
