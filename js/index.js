@@ -148,7 +148,7 @@ Vue.createApp({
             const url = plantUrl + "/selected/" + id
             try {
                 const foundPlant = this.plants.find(plant => plant.plantId == id)
-                response = await axios.put(url)
+                response = await axios.put(url, foundPlant.plantId)
                 this.updateMessage = "response " + response.status + " " + response.statusText
                 this.getAllPlants
             } catch(ex) {
