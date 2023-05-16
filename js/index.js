@@ -147,31 +147,11 @@ Vue.createApp({
         async updateTruePlant(id) {
             const url = plantUrl + "/selected/" + id
             try {
-                this.setPlantBoolsToFalse()
                 const foundPlant = this.plants.find(plant => plant.plantId == id)
-                foundPlant.plantSelected = true
-                this.updateBoolOnPlants(foundPlant)
             } catch(ex) {
                 alert(ex.message)
             }
         },
-        async setPlantBoolsToFalse() {
-            const filteredPlants = this.plants.filter(plant => plant.plantSelected == true)
-            filteredPlants.forEach(plant => {
-                plant.plantSelected = false
-                this.updateBoolOnPlants(plant)
-            });
-        },
-        async updateBoolOnPlants(plant) {
-            const url = plantUrl + "/selected/" + plant.plantId
-            try {
-                response = await axios.put(url, plant)
-                this.updateMessage = "response " + response.status + " " + response.statusText
-            } catch(ex) {
-                alert(ex.message)
-            }
-        },
-
         // SensorData methods
         clearDataList() {
             this.datas = [];
