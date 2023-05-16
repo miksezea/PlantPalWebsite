@@ -144,8 +144,6 @@ Vue.createApp({
                 alert(ex.message)
             }
         },
-        // DONT TOUCH! Ikke pille ved disse tre metoder
-        // Lav ny hvis i skal bruge en update metode
         async updateTruePlant(id) {
             const url = plantUrl + "/" + id
             try {
