@@ -33,7 +33,6 @@ Vue.createApp({
             singlePlant: null,
             plantDeleteId: null,
             addPlantData: {name: "", type: "", description: "", status: 0},
-            updatePlantData: {},
 
             // SensorDatas data
             datas: [],
@@ -152,10 +151,9 @@ Vue.createApp({
         async updateTruePlant(id) {
             const url = plantUrl + "/selected/" + id
             try {
-                updatePlantData = this.plantGetById(id)
-                response = await axios.put(url, updatePlantData.plantId)
+                response = await axios.put(url)
                 this.updateMessage = "response " + response.status + " " + response.statusText
-                this.getAllPlants
+                this.getAllPlants()
             } catch(ex) {
                 alert(ex.message)
             }
