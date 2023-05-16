@@ -115,6 +115,11 @@ Vue.createApp({
                 alert(ex.message)
             }
         },
+        confirmDelete(plantId) {
+            if (confirm("Are you sure you want to delete this plant?")) {
+                this.deletePlant(plantId);
+            }
+        },
         async deletePlant(plantDeleteId) {
             const url = plantUrl + "/" + plantDeleteId
             try {
