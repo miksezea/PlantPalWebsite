@@ -70,13 +70,13 @@
                     <div name="ptype">{{detailedPlant.display_pid}}</div>
                     <br>
                     <label for="pname"><b>Name:</b></label>
-                    <input type="text" name="pname" v-model="addPlantData.name" placeholder="Name this plant" required>
+                    <input id="popup-pname" type="text" name="pname" v-model="addPlantData.name" placeholder="Name this plant" required>
 
                     <label for="pdesc"><b>Description:</b></label>
-                    <input type="text" name="pdesc" v-model="addPlantData.description" placeholder="Write description" required>
+                    <input id="popup-pdesc" type="text" name="pdesc" v-model="addPlantData.description" placeholder="Write description" required>
 
-                    <button class="btn" @click="addPlant()">Add to My Plants</button>
-                    <button type="button" class="btn cancel" @click="closePopup()">Cancel</button>
+                    <button id="popup-addbtn" class="btn" @click="addPlant()">Add to My Plants</button>
+                    <button id="popup-cancelbtn" type="button" class="btn cancel" @click="closePopup()">Cancel</button>
                 </div>
             </div>
         </div>

@@ -145,7 +145,7 @@ Vue.createApp({
             }
         },
         async updateTruePlant(id) {
-            const url = plantUrl + "/" + id
+            const url = plantUrl + "/selected/" + id
             try {
                 this.setPlantBoolsToFalse()
                 const foundPlant = this.plants.find(plant => plant.plantId == id)
@@ -163,7 +163,7 @@ Vue.createApp({
             });
         },
         async updateBoolOnPlants(plant) {
-            const url = plantUrl + "/" + plant.plantId
+            const url = plantUrl + "/selected/" + plant.plantId
             try {
                 response = await axios.put(url, plant)
                 this.updateMessage = "response " + response.status + " " + response.statusText
