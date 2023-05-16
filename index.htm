@@ -93,6 +93,8 @@
                         <th>Description</th>
                         <th>Status</th>
                         <th></th>
+                        <th>Actions</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -112,6 +114,8 @@
                                     class="btn btn-primary">Select</button>
                             </div>
                         </td>
+                        <td><div class="d-grid gap-2"><button id="deletePlant" v-on:click="deletePlant(plant.plantId)" class="btn btn-outline-danger btn sm">Delete</button></div></td>
+                        
                     </tr>
                 </tbody>
             </table>

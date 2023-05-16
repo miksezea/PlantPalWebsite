@@ -118,7 +118,6 @@ Vue.createApp({
         async deletePlant(plantDeleteId) {
             const url = plantUrl + "/" + plantDeleteId
             try {
-                this.deleteDataWithPlant(plantDeleteId)
                 response = await axios.delete(url)
                 this.deleteMessage = response.status + " " + response.statusText
                 this.getAllPlants()
