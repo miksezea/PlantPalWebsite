@@ -31,10 +31,12 @@
 
 <body data-bs-spy="scroll" data-bs-target=".navbar" data-bs-offset="50">
     <div id="app">
+        <!-- Navigation bar -->
         <nav id="navbar" class="navbar navbar-expand-sm navbar-light fixed-top">
             <a class="navbar-brand" href="#">
                 <img src="assets/images/PlantPalLogo-min.png" alt="Logo" id="logo">
             </a>
+            <!-- Button to collapse nav-bar -->
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar"
                 id="toggler">
                 <span class="navbar-toggler-icon"></span>
@@ -42,7 +44,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-
+            <!-- Collapseble nav-bar -->
             <div class="collapse navbar-collapse" id="collapsibleNavbar">
                 <ul class="navbar-nav">
                     <li class="nav-item">
@@ -61,26 +63,32 @@
 
         <!-- Popup til at tilføje plante -->
         <div id="addPopup" class="div-popup" v-if="detailedPlant">
+            <!-- Popup container -->
             <div class="popup-container">
                 <div class="img-container">
+                    <!-- Display plant image -->
                     <img id="popup-picture" v-bind:src=detailedPlant.image_url class="img-thumbnail">
                 </div>
                 <div class="popup-container">
+                    <!-- Display plant details -->
                     <label for="ptype"><b>Type:</b></label>
                     <div name="ptype">{{detailedPlant.display_pid}}</div>
                     <br>
                     <label for="pname"><b>Name:</b></label>
+                    <!-- Navngiv planten -->
                     <input id="popup-pname" type="text" name="pname" v-model="addPlantData.name" placeholder="Name this plant" required>
 
-                    <label for="pdesc"><b>Description:</b></label>
+                    <label for="pdesc"><b>Desc(ription:</b></label>
+                    <!-- Skriv en description-->
                     <input id="popup-pdesc" type="text" name="pdesc" v-model="addPlantData.description" placeholder="Write description" required>
-
+                    <!-- Button to add plant -->
                     <button id="popup-addbtn" class="btn" @click="addPlant()">Add to My Plants</button>
+                    <!-- Button der closer pop-up-window -->
                     <button id="popup-cancelbtn" type="button" class="btn cancel" @click="closePopup()">Cancel</button>
                 </div>
             </div>
         </div>
-
+        <!-- Section 1: My Plants -->
         <div id="section1" class="container-fluid col-sm-10" style="padding:100px 20px;">
             <h2>My Plants</h2>
             <!-- Create table displaying all plants -->
@@ -98,6 +106,7 @@
                     </tr>
                 </thead>
                 <tbody>
+                    <!-- Data fra vores Plant (Fra vores API))-->
                     <tr v-for="plant in plants">
                         <td>{{plant.plantId}}</td>
                         <td>{{plant.name}}</td>
@@ -105,6 +114,7 @@
                         <td>{{plant.description}}</td>
                         <td>{{plant.status}}</td>
                         <td>
+                            <!-- Display "Selected" if the plant is selected, otherwise display "Select" button -->
                             <div v-if="plant.plantSelected == true">
                                 Selected
                             </div>
@@ -114,12 +124,13 @@
                                     class="btn btn-primary">Select</button>
                             </div>
                         </td>
+                        <!-- Button to delete a plant -->
                         <td><div class="d-grid gap-2"><button id="deletePlant" v-on:click="confirmDelete(plant.plantId)" class="btn btn-outline-danger btn sm">Delete</button></div></td>
                         
                     </tr>
                 </tbody>
             </table>
-
+             <!-- Display a message if no plants are available -->
             <div v-else style="font-style: italic;">No items</div>
             <br>
             <h2>Sensor Readings</h2>
@@ -138,6 +149,7 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <!-- Vores Raspberry Pi data -->
                         <tr v-for="data in datas">
                             <td>{{data.id}}</td>
                             <td>{{data.dateTime}}</td>
@@ -151,18 +163,23 @@
                 </table>
             </div>
         </div>
+             <!-- Section 2: Add Plant -->
         <div id="section2" class="container-fluid col-sm-10" style="padding:100px 20px;">
             <h2>Add Plant</h2>
             <div>
                 <div id="detailed" v-if="detailedPlant">
                     <b>{{detailedPlant.display_pid}}</b><br>
                     <img id="plantPicture" v-bind:src=detailedPlant.image_url><br>
+                    <!-- Button to open the plant add popup -->
                     <button @click="openPopup()" class="open-button">Add to My Plants</button>
                 </div>
                 <br>
+                 <!-- Input field to search for a plant -->
                 <input v-model="findPlant.alias" placeholder="Search for plant" type="text" required/>
+                <!-- Button to search for plants -->
                 <button @click="searchForPlants()" class="btn btn-primary">Search</button>
                 <br><br>
+                  <!-- Table to display search results -->
                 <table v-if="apiPlants.count > 0" class="table table-hover">
                     <thead>
                         <tr>
@@ -176,6 +193,7 @@
                             <td>{{apiPlant.display_pid}}</td>
                             <td>{{apiPlant.category}}</td>
                             <td>
+                                <!-- Button to view detailed information about a plant -->
                                 <button id="detail" @click="detailedSearch(apiPlant.pid)" class="btn btn-primary">Details</button>
                             </td>
                         </tr>
@@ -183,10 +201,12 @@
                 </table>
             </div>
         </div>
+        <!-- Section 3: Messages -->
         <div id="section3" class="container-fluid col-sm-10 text-grey" style="padding:100px 20px;">
             <h2>Messages</h2>
         </div>
     </div>
+    <!-- JavaScript file -->
     <script src="js/index.js"></script>
 </body>
 
